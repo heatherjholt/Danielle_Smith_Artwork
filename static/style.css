@@ -1,0 +1,72 @@
+* {
+    box-sizing: border-box;
+    }
+
+/*font and color*/
+body {
+    margin: 0;
+    padding: 0;
+    background: #000; 
+    font-family: "Inconsolata", monospace;
+    color: #000;
+}
+
+.container {
+    background: #ffffff;
+    margin: 25px 15px;
+    padding: 50px;
+    border-radius: 5px; /*rounded corners!*/
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.artist-name {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 5px;
+}
+
+.nav-links a {
+    justify-content: right;
+    text-decoration: none;
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*mobile stuffs*/
+@media (max-width: 700px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .nav-links {
+        margin-top: 15px;
+    }
+    .nav-links a {
+        margin: 0 10px;
+    }
+}
