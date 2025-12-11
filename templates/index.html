@@ -5,11 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- favicon generated at https://redketchup.io/favicon-generator -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
     <title>Danielle Smith</title>
 </head>
 
 <body>
     <div class="container">
+        <!-- header -->
         <div class="header">
             <div class="artist-name">DANIELLE SMITH</div>
             <div class="nav-links">
@@ -18,7 +21,72 @@
                 <a href="#contact">CONTACT</a>
             </div>  
         </div>
+        <!--end of header-->
+
+        <!--main content-->
+        <main>
+            <section id="gallery" class="gallery-section">
+                <!-- <h2 class="section-heading">RECENT WORKS</h2> -->
+
+                <div class="gallery-grid">
+                    <button class="artwork-thumb" data-index="0" data-title="Dog Painting">
+                        <img src="{{ url_for('static', filename='artwork/dogpainting.jpg') }}"
+                             alt="Dog Painting">
+                    </button>
+
+                    <button class="artwork-thumb" data-index="1" data-title="Man in Forest">
+                        <img src="{{ url_for('static', filename='artwork/manforest_webres.jpg') }}"
+                             alt="Man in Forest">
+                    </button>
+
+                    <button class="artwork-thumb" data-index="2" data-title="Walking Path">
+                        <img src="{{ url_for('static', filename='artwork/walkingpath_webres.jpg') }}"
+                             alt="Walking Path">
+                    </button>
+
+                    <button class="artwork-thumb" data-index="3" data-title="Winged Horse">
+                        <img src="{{ url_for('static', filename='artwork/wingedhorse_webres.jpg') }}"
+                             alt="Winged Horse">
+                    </button>
+
+                    <button class="artwork-thumb" data-index="4" data-title="Woman with Brick Wall">
+                        <img src="{{ url_for('static', filename='artwork/womanbrick_webres.jpg') }}"
+                             alt="Woman with Brick Wall">
+                    </button>
+
+                    <button class="artwork-thumb" data-index="5" data-title="Woman and Tree">
+                        <img src="{{ url_for('static', filename='artwork/womantree_webres.jpg') }}"
+                             alt="Woman and Tree">
+                    </button>
+                </div>
+            </section>
+        </main>
+        <!--end of main content-->
+
+        <!--footer-->
+        <div class="section-divider"></div>
+
+        <footer class="footer">
+            <span>&copy; gabby whats our company name lol</span>
+        </footer>
+        <!--end of footer-->
+
+        <!--lightbox modal-->
+        <!-- https://www.w3schools.com/howto/howto_js_lightbox.asp -->
+        <div id="lightbox" class="lightbox">
+            <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+            <button class="lightbox-arrow left" id="lightbox-prev" aria-label="Previous">&#10094;</button>
+            <div class="lightbox-inner">
+                <img id="lightbox-image" src="" alt="">
+                <div id="lightbox-title" class="lightbox-title"></div>
+            </div>
+            <button class="lightbox-arrow right" id="lightbox-next" aria-label="Next">&#10095;</button>
+        </div>
+
     </div>
+
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 
 </html>
