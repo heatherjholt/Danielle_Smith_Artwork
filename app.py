@@ -52,15 +52,12 @@ def ratelimit_handler(error):
     
     # flash("Too many requests. Please wait a moment and try again.", "danger")
     
-    template = "index"
+    template = "home"
     if request.endpoint == "userlogin":
         template = "userlogin"
-    elif request.endpoint == "register":
-        template = "register"
-    elif request.endpoint == "reset_password":
-        template = "reset_password"
-    
+
     return redirect(url_for(template))
+
 # ---------------- Bcrypt Password Hashing ----------------
 bcrypt = Bcrypt()
 bcrypt.init_app(app)

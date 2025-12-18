@@ -4,7 +4,6 @@ pip install Flask
 pip install Flask-SQLAlchemy
 pip install PyMySQL
 pip install psycopg2-binary
-pip install gunicorn
 pip install python-dotenv
 pip install flask-login
 pip install flask-limiter
