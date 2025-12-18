@@ -103,7 +103,7 @@ def check_password(password):
         return False
 
 # save uploaded image to static folder
-@app.route("/upload", method = ['POST'])
+@app.route("/upload", methods = ['POST'])
 @login_required
 def upload_art():
     title = request.form.get('title')

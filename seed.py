@@ -7,7 +7,7 @@ def main():
     with app.app_context():
         db.create_all()
 
-        existing_admin = db.session.execute (select(AdminUser)).where(AdminUser.email == "robert.w.smith07@gmail.com").scalar()
+        existing_admin = db.session.execute(select(AdminUser).where(AdminUser.email == "robert.w.smith07@gmail.com")).scalar()
 
         if not existing_admin:
             hashed_pwd = bcrypt.generate_password_hash("1LovePotatoes").decode('utf-8')

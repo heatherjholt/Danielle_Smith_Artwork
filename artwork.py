@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
-from sqlalchemy import String, Integer, Text
+from sqlalchemy import String, Integer, Text,DateTime
 from flask_login import UserMixin
 
 
@@ -53,7 +53,7 @@ def init_connection_engine(app):
 
 class SavedArt(db.Model):
     __tablename__ = "saved_art"
-
+    saved_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     title: Mapped[str] = mapped_column(String(400), nullable=True)
     image: Mapped[str] = mapped_column(String(255), nullable=True)
     description: Mapped[str] = mapped_column(Text, nullable=True)
@@ -69,4 +69,4 @@ class AdminUser(db.Model, UserMixin):
     
     
     def get_id(self):
-        return f"manual_{self.admin_id}"
+        return str(self.admin_id)
