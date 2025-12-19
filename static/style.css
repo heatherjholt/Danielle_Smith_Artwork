@@ -507,7 +507,7 @@ html {
 }
 
 .mobile-pick-row {
-  display: none !important;
+  display: none;
 }
 /* end navigation in admin page*/
 
@@ -642,6 +642,9 @@ html {
     border-radius: 10px;
     font-size: 14px;
     }
+}
+@media (pointer: coarse) {
+  .mobile-pick-row { display: flex !important; }
 }
 
 /* end of mobile stuffs*/
