@@ -1,4 +1,4 @@
-from artwork import db, AdminUser
+from artwork import AboutPage, db, AdminUser
 from app import app, bcrypt
 from sqlalchemy import select
 
@@ -17,9 +17,20 @@ def main():
                 password = hashed_pwd,
                 name = 'Danielle'
             )
+
             db.session.add(new_admin)
-            db.session.commit()
 
 
+        existing_about = db.session.execute(select(AboutPage)).scalar_one_or_none()
+        if not existing_about:
+            db.session.add(
+                AboutPage(
+                    header="About",
+                    body="Danielle Smith has the coolest middle name of all time. She also created Post-It Notes.",
+                )
+            )
+
+        db.session.commit()
+        
 if __name__ == "__main__":        
     main()
