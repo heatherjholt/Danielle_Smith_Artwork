@@ -150,6 +150,36 @@ document.addEventListener("DOMContentLoaded", () => {
     setPreview(f);
   };
 
+  //TESTING mobile photo/camera upload
+  document.addEventListener("DOMContentLoaded", () => {
+  const artFile = document.getElementById("artFile");
+  const cameraFile = document.getElementById("cameraFile");
+
+  const takeBtn = document.getElementById("takePhotoBtn");
+  const chooseBtn = document.getElementById("choosePhotoBtn");
+
+  if (takeBtn && cameraFile) {
+    takeBtn.addEventListener("click", () => cameraFile.click());
+  }
+
+  if (chooseBtn && artFile) {
+    chooseBtn.addEventListener("click", () => artFile.click());
+  }
+
+  if (cameraFile && artFile) {
+    cameraFile.addEventListener("change", () => {
+      if (!cameraFile.files?.length) return;
+
+      const dt = new DataTransfer();
+      dt.items.add(cameraFile.files[0]);
+      artFile.files = dt.files;
+
+      artFile.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+  }
+});
+
+
   //starts with no file selected and upload greyed out
   updateUI();
 
@@ -341,6 +371,19 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !modal.classList.contains("hidden")) {
       closeModal();
+    }
+  });
+});
+
+//login enter button submits pw
+document.addEventListener("DOMContentLoaded", () => {
+  const pw = document.querySelector('input[name="password"]');
+  if (!pw) return;
+
+  pw.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      pw.form?.requestSubmit?.() || pw.form?.submit();
     }
   });
 });

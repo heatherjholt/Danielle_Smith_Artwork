@@ -505,6 +505,10 @@ html {
   letter-spacing:2px;
   text-decoration:none;
 }
+
+.mobile-pick-row {
+  display: none;
+}
 /* end navigation in admin page*/
 
 /*login page*/
@@ -622,6 +626,22 @@ html {
     line-height: 1;
     box-sizing: border-box;
   }
+    #dropText {
+    display: none; /* hide drag and drop text on mobile */
+    }
+
+    .mobile-pick-row {
+    display: flex;
+    gap: 10px;
+    margin: 12px 0 6px;
+    }
+
+    .pick-btn {
+    flex: 1;
+    padding: 12px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    }
 }
 
 /* end of mobile stuffs*/

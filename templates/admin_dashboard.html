@@ -52,15 +52,22 @@
         <form class="admin-upload" action="{{ url_for('upload_art') }}" method="POST" enctype="multipart/form-data">
             <div id="dropzone" class="dropzone">
             <p id="dropText">Drag & drop an image here, or click to open File Explorer.</p>
+            <!-- capture="environment" --><!--taken out for testing-->
             <input
                 id="artFile"
                 name="art_file"
                 type="file"
                 accept="image/*"
-                capture="environment"
                 hidden
                 >
             </div>
+            <!--testing mobile-->
+            <div class="mobile-pick-row">
+            <button type="button" class="pick-btn" id="takePhotoBtn">TAKE PHOTO</button>
+            <button type="button" class="pick-btn" id="choosePhotoBtn">CHOOSE PHOTO</button>
+            </div>
+
+            <input id="cameraFile" type="file" accept="image/*" capture="environment" hidden>
 
         <div class="preview-wrap">
             <img id="previewImg" class="preview-img" alt="Preview" style="display:none;">
