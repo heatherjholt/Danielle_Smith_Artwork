@@ -661,6 +661,13 @@ html {
     max-width: 100%;
     margin: 8px auto 0;
     box-sizing: border-box;
+    text-align-last: center;
+    }
+
+    #modalFileInput {
+    margin-top: 8px;
+    align-self: center;
+    width: 100%;
     }
 
     .modal-actions {
@@ -678,6 +685,7 @@ html {
     max-width: 320px;
     display: block;
     margin: 0 auto;
+    border-radius: 5px;
     }
 }
 
