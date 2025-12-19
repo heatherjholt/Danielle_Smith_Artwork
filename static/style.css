@@ -50,8 +50,8 @@ body {
 }
 
 .artist-link {
-  text-decoration: none;
-  color: inherit;
+  text-decoration: none !important;
+  color: #fff !important;
   cursor: pointer;
 }
 

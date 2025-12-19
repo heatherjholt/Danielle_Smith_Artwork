@@ -49,12 +49,12 @@ def home():
 @login_required
 def admin_dashboard():
     artworks = db.session.execute(select(SavedArt).order_by(SavedArt.position.asc(), SavedArt.saved_id.asc())).scalars().all()
-    about_row = db.session.get(AboutPage, 1)
+    about_row = db.session.execute(select(AboutPage)).scalar_one_or_none()
     return render_template("admin_dashboard.html", artworks=artworks, about=about_row)
 
 @app.route("/about")
 def about():
-    about_row = db.session.get(AboutPage, 1)
+    about_row = db.session.execute(select(AboutPage)).scalar_one_or_none()
     return render_template("about.html", about=about_row)
 
 @app.route("/admin/about/update", methods=["POST"])
@@ -63,9 +63,9 @@ def update_about():
     header = request.form.get("about_header", "").strip()
     body = request.form.get("about_body", "").strip()
 
-    about_row = db.session.get(AboutPage, 1)
+    about_row = db.session.execute(select(AboutPage)).scalar_one_or_none()
     if not about_row:
-        about_row = AboutPage(id=1)
+        about_row = AboutPage()
 
     about_row.header = header
     about_row.body = body
