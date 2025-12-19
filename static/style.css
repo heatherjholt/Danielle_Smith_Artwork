@@ -244,24 +244,6 @@ admin-link {
     margin-bottom: 20px;
 }
 
-
-/*mobile stuffs*/
-@media (max-width: 700px) {
-    .header {
-        flex-direction: column;
-        text-align: center;
-    }
-    .nav-links {
-        margin-top: 15px;
-    }
-    .nav-links a {
-        margin: 0 10px;
-    }
-}
-
-/* end of mobile stuffs*/
-
-
 /* drag and drop stuffs */
 .section-heading {
     text-align: center;
@@ -527,7 +509,7 @@ html {
 
 /*login page*/
 .login-form {
-  max-width: 50%;
+  width: 50%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -546,3 +528,38 @@ html {
 }
 
 /*end of contact page*/
+
+
+
+
+/*mobile stuffs*/
+@media (max-width: 700px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .nav-links {
+        margin-top: 15px;
+    }
+    .nav-links a {
+        margin: 0 10px;
+    }
+  
+  .submit-btn,
+  .upload-btn,
+  button[type="submit"] {
+    width: 100%;
+    max-width: 260px;
+    margin: 22px auto 0;
+    padding: 12px 18px;
+    font-size: 14px;
+    border-radius: 8px;
+    display: block;
+    text-align: center;
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: manipulation;
+  }
+}
+
+/* end of mobile stuffs*/
