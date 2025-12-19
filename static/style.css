@@ -544,7 +544,7 @@ html {
     .nav-links a {
         margin: 0 10px;
     }
-  .gallery-filter select,
+  
   .submit-btn,
   .upload-btn,
   button[type="submit"] {
@@ -559,6 +559,21 @@ html {
     -webkit-appearance: none;
     appearance: none;
     touch-action: manipulation;
+  }
+    .gallery-filter {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .gallery-filter select#medium {
+    box-sizing: border-box;
+    width: min(92vw, 320px) !important; 
+    max-width: none !important;
+    margin: 16px auto 0 !important;
+    padding: 12px 16px !important;
+    font-size: 16px !important;
+    border-radius: 8px;
   }
 }
 
