@@ -67,7 +67,12 @@ class AdminUser(db.Model, UserMixin):
     name: Mapped[str] = mapped_column(String(128), nullable=True)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
 
-    
+class AboutPage(db.Model):
+    __tablename__ = "about_page"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    header: Mapped[str] = mapped_column(String(255), nullable=True)
+    body: Mapped[str] = mapped_column(Text, nullable=True)
+
     
     def get_id(self):
         return str(self.admin_id)

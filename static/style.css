@@ -16,6 +16,7 @@ body {
     margin: 25px 15px;
     padding: 50px;
     border-radius: 5px; /*rounded corners!*/
+    min-height: calc(100vh - 50px); /*stretch out the container box to fill more of the screen*/
 }
 
 /*header styles*/

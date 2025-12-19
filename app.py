@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, url_for,jsonify
-from artwork import init_connection_engine, db,SavedArt,AdminUser
+from artwork import init_connection_engine, db,SavedArt,AdminUser, AboutPage
 from flask_login import LoginManager, login_user, login_required
 from sqlalchemy import select
 from flask import request, redirect, url_for, flash
@@ -20,6 +20,11 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
+ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png", "webp", "gif"}
+def allowed_file(filename):
+    return "." in filename and \
+           filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
 limiter = Limiter(
     get_remote_address,
     app=app,
@@ -34,7 +39,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# ------------ HOME PAGE --------------
+# ------------ ?ROUTES --------------
 @app.route("/")
 def home():
     artworks = db.session.execute(select(SavedArt)).scalars().all()
@@ -44,7 +49,33 @@ def home():
 @login_required
 def admin_dashboard():
     artworks = db.session.execute(select(SavedArt)).scalars().all()
-    return render_template("admin_dashboard.html", artworks=artworks)
+    about_row = db.session.get(AboutPage, 1)
+    return render_template("admin_dashboard.html", artworks=artworks, about=about_row)
+
+@app.route("/about")
+def about():
+    about_row = db.session.get(AboutPage, 1)
+    return render_template("about.html", about=about_row)
+
+@app.route("/admin/about/update", methods=["POST"])
+@login_required
+def update_about():
+    header = request.form.get("about_header", "").strip()
+    body = request.form.get("about_body", "").strip()
+
+    about_row = db.session.get(AboutPage, 1)
+    if not about_row:
+        about_row = AboutPage(id=1)
+
+    about_row.header = header
+    about_row.body = body
+
+    db.session.add(about_row)
+    db.session.commit()
+
+    flash("About page updated!", "success")
+    return redirect(url_for("admin_dashboard"))
+
 
 # ------------ Flask Login Setup --------------------
 login_manager = LoginManager()
@@ -122,25 +153,41 @@ def upload_art():
     medium = request.form.get('medium')
 
 
-    if file and file.filename != '':
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+    # if file and file.filename != '':
+    #     filename = secure_filename(file.filename)
+    #     file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
 
+    #limit file types for upload
+    if not file or file.filename == "":
+        flash("Upload failed. Please select an image.", "danger")
+        return redirect(url_for("admin_dashboard"))
+
+    if not allowed_file(file.filename):
+        flash("Upload failed. Only JPG, PNG, WEBP, or GIF images are allowed.", "danger")
+        return redirect(url_for("admin_dashboard"))
+
+    filename = secure_filename(file.filename)
+
+    # prevent overwriting existing file w same name
+    name, ext = os.path.splitext(filename)
+    filename = f"{name}_{uuid.uuid4().hex[:8]}{ext}"
+
+    file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
         #save to db
-        new_entry = SavedArt (
-            title = title,
-            description = description,
-            image = filename,
-            medium = medium
-        )
-        db.session.add(new_entry)
-        db.session.commit()
+    new_entry = SavedArt (
+        title = title,
+        description = description,
+        image = filename,
+        medium = medium
+    )
+    db.session.add(new_entry)
+    db.session.commit()
 
-        flash("Artwork uploaded successfully!", "success")
-        return redirect(url_for('admin_dashboard'))
+    flash("Artwork uploaded successfully!", "success")
+    return redirect(url_for('admin_dashboard'))
     
-    flash("Upload failed.", "danger")
-    return redirect(url_for("admin_dashboard"))
+    # flash("Upload failed. Please select a valid image file (jpg, jpeg, png, webp, gif).", "danger")
+    # return redirect(url_for("admin_dashboard"))
     # return "Upload failed", 400
 
    

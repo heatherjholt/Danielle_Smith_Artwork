@@ -30,7 +30,7 @@
         <div class="header">
             <div class="artist-name"><a href="{{ url_for('home') }}" class="artist-link">DANIELLE SMITH</a></div>
             <div class="nav-links">
-                <a href="#about">ABOUT</a>
+                <a href="{{ url_for('about') }}">ABOUT</a>
                 <a href="#gallery">GALLERY</a>
                 <a href="#contact">CONTACT</a>
             </div>  
@@ -45,7 +45,14 @@
         <form class="admin-upload" action="{{ url_for('upload_art') }}" method="POST" enctype="multipart/form-data">
             <div id="dropzone" class="dropzone">
             <p id="dropText">Drag & drop an image here, or click to open File Explorer.</p>
-            <input id="artFile" name="art_file" type="file" accept="image/*" hidden>
+            <input
+                id="artFile"
+                name="art_file"
+                type="file"
+                accept="image/*"
+                capture="environment"
+                hidden
+                >
             </div>
 
         <div class="preview-wrap">
@@ -73,6 +80,40 @@
 
             <button type="submit" class="upload-btn" id="uploadBtn" disabled>UPLOAD</button>
         </form>
+        
+        <div class="section-divider"></div>
+
+            <section class="gallery-section">
+                <h2 class="section-heading">EDIT ABOUT PAGE</h2>
+
+                <form action="{{ url_for('update_about') }}" method="POST" class="admin-upload">
+                    <label class="form-label">
+                    HEADER:
+                    <input
+                        type="text"
+                        name="about_header"
+                        class="text-input"
+                        value="{{ about.header if about else '' }}"
+                        placeholder="ABOUT"
+                    >
+                    </label>
+
+                    <label class="form-label">
+                    PARAGRAPH:
+                    <textarea
+                        name="about_body"
+                        class="text-area"
+                        rows="8"
+                        placeholder="Danielle's bio..."
+                    >{{ about.body if about else '' }}</textarea>
+                    </label>
+
+                    <button type="submit" class="upload-btn">Save</button>
+                </form>
+            </section>
+
+
+
         </section>
 
         <div class="section-divider"></div>

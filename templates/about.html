@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+  <title>Danielle Smith — About</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="artist-name">
+        <a href="{{ url_for('home') }}" class="artist-link">DANIELLE SMITH</a>
+      </div>
+      <div class="nav-links">
+        <a href="{{ url_for('about') }}">ABOUT</a>
+        <a href="{{ url_for('home') }}#gallery">GALLERY</a>
+        <a href="{{ url_for('home') }}#contact">CONTACT</a>
+      </div>
+    </div>
+
+    <main>
+      <section class="text-section">
+        <h2>{{ about.header if about and about.header else "ABOUT" }}</h2>
+        <p style="white-space: pre-line;">
+          {{ about.body if about and about.body else "Edit Danielle's bio in the admin dashboard." }}
+        </p>
+      </section>
+    </main>
+
+    <div class="section-divider"></div>
+    <footer class="footer">
+      <span>&copy; G+H Digital Designs</span>
+      <a href="{{ url_for('admin_dashboard') }}">ADMIN</a>
+    </footer>
+  </div>
+</body>
+</html>
