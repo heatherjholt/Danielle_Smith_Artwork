@@ -128,6 +128,10 @@ body {
 .lightbox.open {
     opacity: 1;
     pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
 }
 
 .lightbox img {
@@ -135,6 +139,15 @@ body {
     max-height: 88vh;
     object-fit: contain;
     border-radius: 5px;
+}
+
+#lightbox-image {
+  max-width: 100%;
+  max-height: calc(100vh - 180px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .lightbox-close {

@@ -29,35 +29,21 @@
                 <!-- <h2 class="section-heading">RECENT WORKS</h2> -->
 
                 <div class="gallery-grid">
-                    <button class="artwork-thumb" data-index="0" data-title="Dog Painting">
-                        <img src="{{ url_for('static', filename='artwork/dogpainting.jpg') }}"
-                             alt="Dog Painting">
-                    </button>
-
-                    <button class="artwork-thumb" data-index="1" data-title="Man in Forest">
-                        <img src="{{ url_for('static', filename='artwork/manforest_webres.jpg') }}"
-                             alt="Man in Forest">
-                    </button>
-
-                    <button class="artwork-thumb" data-index="2" data-title="Walking Path">
-                        <img src="{{ url_for('static', filename='artwork/walkingpath_webres.jpg') }}"
-                             alt="Walking Path">
-                    </button>
-
-                    <button class="artwork-thumb" data-index="3" data-title="Winged Horse">
-                        <img src="{{ url_for('static', filename='artwork/wingedhorse_webres.jpg') }}"
-                             alt="Winged Horse">
-                    </button>
-
-                    <button class="artwork-thumb" data-index="4" data-title="Woman with Brick Wall">
-                        <img src="{{ url_for('static', filename='artwork/womanbrick_webres.jpg') }}"
-                             alt="Woman with Brick Wall">
-                    </button>
-
-                    <button class="artwork-thumb" data-index="5" data-title="Woman and Tree">
-                        <img src="{{ url_for('static', filename='artwork/womantree_webres.jpg') }}"
-                             alt="Woman and Tree">
-                    </button>
+                    {% for art in artworks %}
+                        <button
+                        class="artwork-thumb"
+                        data-index="{{ loop.index0 }}"
+                        data-title="{{ art.title or '' }}"
+                        data-medium="{{ art.medium or '' }}"
+                        data-description="{{ art.description or '' }}"
+                        type="button"
+                        >
+                        <img
+                            src="{{ url_for('static', filename='artwork/' ~ art.image) }}"
+                            alt="{{ art.title or 'Artwork' }}"
+                        >
+                        </button>
+                    {% endfor %}
                 </div>
             </section>
         </main>
@@ -81,6 +67,8 @@
             <div class="lightbox-inner">
                 <img id="lightbox-image" src="" alt="">
                 <div id="lightbox-title" class="lightbox-title"></div>
+                <div id="lightbox-medium"></div>
+                <p id="lightbox-description"></p>
             </div>
             <button class="lightbox-arrow right" id="lightbox-next" aria-label="Next">&#10095;</button>
         </div>

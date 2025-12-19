@@ -31,6 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
     //title from data-title in html 
     const title = thumb.getAttribute("data-title");
     titlebox.textContent = title || "";
+    document.getElementById("lightbox-medium").textContent =
+    thumb.dataset.medium ? `MEDIUM: ${thumb.dataset.medium}` : "";
+
+    document.getElementById("lightbox-description").textContent =
+    thumb.dataset.description || "";
     }
 
     //open, close, next in lightbox
