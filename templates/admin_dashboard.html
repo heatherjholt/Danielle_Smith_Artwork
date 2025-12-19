@@ -31,8 +31,8 @@
             <div class="artist-name"><a href="{{ url_for('home') }}" class="artist-link">DANIELLE SMITH</a></div>
             <div class="nav-links">
                 <a href="{{ url_for('about') }}">ABOUT</a>
-                <a href="#gallery">GALLERY</a>
-                <a href="#contact">CONTACT</a>
+                <a href="{{ url_for('home') }}#gallery">GALLERY</a>
+                <a href="{{ url_for('contact') }}">CONTACT</a>
             </div>  
         </div>
         <!--end of header-->

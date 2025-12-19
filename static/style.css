@@ -25,8 +25,8 @@ body {
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid #444;  /*line below header*/
-    padding-bottom: 20px;
-    margin-bottom: 30px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .artist-name {
@@ -63,7 +63,7 @@ body {
 
 /*gallery styles*/
 .gallery-section {
-    margin-top: 30px;
+    /* margin-top: 3px; */
 }
 
 .gallery-grid {
@@ -109,6 +109,22 @@ body {
     text-transform: uppercase;
     margin-bottom: 10px;
 }
+
+.gallery-filter {
+    margin: 5px auto;
+    text-align: right;
+    background: #000;
+}
+
+.gallery-filter select {
+    background: #000;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 8px 8px;
+    font-family: inherit;
+    letter-spacing: 2px;
+    width: 15%;
+}
 /*end of gallery styles*/
 
 /*lightbox modal styles*/
@@ -123,6 +139,10 @@ body {
     pointer-events: none;
     transition: opacity 0.2s ease-out;
     z-index: 1000;
+}
+
+.lightbox-medium {
+    text-transform: uppercase;
 }
 
 .lightbox.open {
@@ -515,3 +535,14 @@ html {
   align-items: center;
 }
 /*end of login page*/
+
+/*contact page*/
+
+.submit-btn {
+  letter-spacing: 2px;
+  max-width: 20%;
+  display: block;
+  margin: 10px auto 0;
+}
+
+/*end of contact page*/

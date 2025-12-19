@@ -24,39 +24,54 @@
         <!--end of header-->
 
         <!--main content-->
-        <main>
-            <section id="gallery" class="gallery-section">
-                <!-- <h2 class="section-heading">RECENT WORKS</h2> -->
-            <form method="get" id="filter-form" class="gallery-filter">
-                <select name="medium" id="medium" onchange="this.form.submit()">
-                    <option value="all">SORT BY:</option>
 
-                    {% for m in media %}
-                        <option value="{{ m }}" {% if m == selected_medium %}selected{% endif %}>
-                            {{ m }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </form>
-                <div class="gallery-grid">
-                    {% for art in artworks %}
-                        <button
-                        class="artwork-thumb"
-                        data-index="{{ loop.index0 }}"
-                        data-title="{{ art.title or '' }}"
-                        data-medium="{{ art.medium or '' }}"
-                        data-description="{{ art.description or '' }}"
-                        type="button"
-                        >
-                        <img
-                            src="{{ url_for('static', filename='artwork/' ~ art.image) }}"
-                            alt="{{ art.title or 'Artwork' }}"
-                        >
-                        </button>
-                    {% endfor %}
-                </div>
+        <main>
+            <section class="gallery-section" id="contact">
+                <h2 class="section-heading">CONTACT</h2>
+
+                <form class="contact-form" method="POST" action="#">
+                
+                <label class="form-label">
+                    NAME:
+                    <input
+                    type="text"
+                    name="name"
+                    class="text-input"
+                    placeholder=""
+                    required
+                    >
+                </label>
+
+                <label class="form-label">
+                    EMAIL:
+                    <input
+                    type="email"
+                    name="email"
+                    class="text-input"
+                    placeholder=""
+                    required
+                    >
+                </label>
+
+                <label class="form-label">
+                    MESSAGE:
+                    <textarea
+                    name="message"
+                    class="text-area"
+                    rows="6"
+                    placeholder="Write your message here..."
+                    required
+                    ></textarea>
+                </label>
+
+                <button type="submit" class="submit-btn">
+                    SEND MESSAGE
+                </button>
+
+                </form>
             </section>
-        </main>
+            </main>
+
         <!--end of main content-->
 
         <!--footer-->

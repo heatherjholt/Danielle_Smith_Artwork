@@ -42,8 +42,13 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # ------------ ROUTES --------------
 @app.route("/")
 def home():
-    artworks = db.session.execute(select(SavedArt).order_by(SavedArt.position.asc(), SavedArt.saved_id.asc())).scalars().all()
-    return render_template("index.html", artworks = artworks)
+    medium = request.args.get("medium") 
+    start = select(SavedArt) 
+    if medium and medium != 'all':
+        start = start.where(SavedArt.medium == medium)
+    artworks = db.session.execute(start.order_by(SavedArt.position.asc(), SavedArt.saved_id.asc())).scalars().all()
+    media = db.session.execute(select(SavedArt.medium).distinct().order_by(SavedArt.medium.asc())).scalars().all()
+    return render_template("index.html", artworks = artworks, media=media, selected_medium=medium or 'all')
 
 @app.route("/admin")
 @login_required
@@ -148,6 +153,10 @@ def reorder_art():
 
     db.session.commit()
     return jsonify(ok=True)
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
 
 @app.route("/logout")
 @login_required
