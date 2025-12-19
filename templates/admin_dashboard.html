@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- favicon generated at https://redketchup.io/favicon-generator -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <title>Danielle Smith</title>
+</head>
+
+<body>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container" id="flashContainer">
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+
+    <div class="container">
+        <!-- header -->
+        <div class="header">
+            <div class="artist-name"><a href="{{ url_for('home') }}" class="artist-link">DANIELLE SMITH</a></div>
+            <div class="nav-links">
+                <a href="#about">ABOUT</a>
+                <a href="#gallery">GALLERY</a>
+                <a href="#contact">CONTACT</a>
+            </div>  
+        </div>
+        <!--end of header-->
+
+        <!--main content-->
+        
+        <section id="upload" class="gallery-section">
+        <h2 class="section-heading">UPLOAD NEW ARTWORK</h2>
+
+        <form class="admin-upload" action="{{ url_for('upload_art') }}" method="POST" enctype="multipart/form-data">
+            <div id="dropzone" class="dropzone">
+            <p id="dropText">Drag & drop an image here, or click to open File Explorer.</p>
+            <input id="artFile" name="art_file" type="file" accept="image/*" hidden>
+            </div>
+
+        <div class="preview-wrap">
+            <img id="previewImg" class="preview-img" alt="Preview" style="display:none;">
+        </div>
+
+            <label class="form-label">
+                TITLE: <input type="text" name="title" class="text-input">
+            </label>   
+
+            <label class="form-label">
+                DESCRIPTION: <textarea name="description" class="text-area" rows="2"></textarea>
+            </label>
+
+            <label class="form-label">
+                MEDIUM: <select name="medium" class="medium-select">
+                <option value=""></option>
+                <option value="Painting">PAINTING</option>
+                <option value="Drawing">DRAWING</option>
+                <option value="Mixed Media">MIXED MEDIA</option>
+                <option value="Digital">DIGITAL</option>
+                <option value="Other">OTHER</option>
+            </select>
+            </label>
+
+            <button type="submit" class="upload-btn" id="uploadBtn" disabled>UPLOAD</button>
+        </form>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!--end of main content-->
+
+        <!--footer-->
+        <!-- <div class="section-divider"></div> -->
+
+        <footer class="footer">
+            <span>&copy; G+H Digital Designs</span>
+            <a href="{{ url_for('admin_dashboard') }}">ADMIN</a>
+        </footer>
+        <!--end of footer-->
+
+    </div>
+
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

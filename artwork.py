@@ -56,6 +56,7 @@ class SavedArt(db.Model):
     saved_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     title: Mapped[str] = mapped_column(String(400), nullable=True)
     image: Mapped[str] = mapped_column(String(255), nullable=True)
+    medium: Mapped[str] = mapped_column(String(100), nullable=True)
     description: Mapped[str] = mapped_column(Text, nullable=True)
 
 class AdminUser(db.Model, UserMixin):

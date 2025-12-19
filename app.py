@@ -12,10 +12,14 @@ from datetime import datetime, date, timedelta, timezone
 import uuid
 import os
 import re
-
+from dotenv import load_dotenv
+load_dotenv()
 
 # ---------- APP SETUP --------------
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
+
 limiter = Limiter(
     get_remote_address,
     app=app,
@@ -35,6 +39,12 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 def home():
     artworks = db.session.execute(select(SavedArt)).scalars().all()
     return render_template("index.html", artworks = artworks)
+
+@app.route("/admin")
+@login_required
+def admin_dashboard():
+    artworks = db.session.execute(select(SavedArt)).scalars().all()
+    return render_template("admin_dashboard.html", artworks=artworks)
 
 # ------------ Flask Login Setup --------------------
 login_manager = LoginManager()
@@ -82,13 +92,13 @@ def userlogin():
         # Check for correct username and password, login user if both correct
         if user and bcrypt.check_password_hash(user.password, password):
             login_user(user)
-            flash(f"Welcome back {email}", "success")
-            return redirect(url_for("home"))
+            flash(f"Welcome back!", "success")
+            return redirect(url_for("admin_dashboard"))
         else:
             flash("Error: Incorrect email or password", "danger")
             return redirect(url_for("userlogin"))
 
-    return render_template("login.html")
+    return render_template("admin_login.html")
 
 def check_password(password):
     reg = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#%()])[A-Za-z\d@$#%()]{6,20}$"
@@ -109,6 +119,8 @@ def upload_art():
     title = request.form.get('title')
     description = request.form.get('description')
     file = request.files.get('art_file')
+    medium = request.form.get('medium')
+
 
     if file and file.filename != '':
         filename = secure_filename(file.filename)
@@ -118,13 +130,18 @@ def upload_art():
         new_entry = SavedArt (
             title = title,
             description = description,
-            image = filename
+            image = filename,
+            medium = medium
         )
         db.session.add(new_entry)
         db.session.commit()
 
-        return redirect(url_for('home'))
-    return "Upload failed", 400
+        flash("Artwork uploaded successfully!", "success")
+        return redirect(url_for('admin_dashboard'))
+    
+    flash("Upload failed.", "danger")
+    return redirect(url_for("admin_dashboard"))
+    # return "Upload failed", 400
 
    
 if __name__ == "__main__":

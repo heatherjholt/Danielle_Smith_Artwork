@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- favicon generated at https://redketchup.io/favicon-generator -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <title>Danielle Smith</title>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="artist-name">DANIELLE SMITH</div>
+      <div class="nav-links">
+        <a href="{{ url_for('home') }}">HOME</a>
+      </div>
+    </div>
+
+    <main>
+      <section class="gallery-section">
+        <h2 class="section-heading">ADMIN LOGIN</h2>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form class="login-form" method="POST" action="{{ url_for('userlogin') }}">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+            class="text-input"
+          >
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+            class="text-input"
+          >
+
+          <button type="submit" class="upload-btn">Log In</button>
+        </form>
+      </section>
+    </main>
+
+    <div class="section-divider"></div>
+
+    <footer class="footer">
+      <span>&copy; G + H Digital Designs</span>
+    </footer>
+  </div>
+</body>
+</html>

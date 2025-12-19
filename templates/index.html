@@ -14,7 +14,7 @@
     <div class="container">
         <!-- header -->
         <div class="header">
-            <div class="artist-name">DANIELLE SMITH</div>
+            <div class="artist-name"><a href="{{ url_for('home') }}" class="artist-link">DANIELLE SMITH</a></div>
             <div class="nav-links">
                 <a href="#about">ABOUT</a>
                 <a href="#gallery">GALLERY</a>
@@ -67,7 +67,9 @@
         <div class="section-divider"></div>
 
         <footer class="footer">
-            <span>&copy; gabby whats our company name lol</span>
+            <span>&copy; G+H Digital Designs</span>
+            <a class="admin-link" href="{{ url_for('admin_dashboard') }}">ADMIN</a>
+
         </footer>
         <!--end of footer-->
 
@@ -84,7 +86,6 @@
         </div>
 
     </div>
-
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

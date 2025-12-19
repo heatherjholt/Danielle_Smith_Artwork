@@ -105,3 +105,99 @@ document.addEventListener("DOMContentLoaded", () => {
         { passive: true }
     );
 });
+
+// drag and drop
+document.addEventListener("DOMContentLoaded", () => {
+  const dropzone = document.getElementById("dropzone");
+  const fileInput = document.getElementById("artFile");
+  const dropText = document.getElementById("dropText");
+  const uploadBtn = document.getElementById("uploadBtn");
+  const previewImg = document.getElementById("previewImg");
+
+  if (!dropzone || !fileInput || !dropText || !uploadBtn || !previewImg) return;
+
+  let previewUrl = null;
+
+  const setPreview = (file) => {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    previewUrl = null;
+
+    if (!file) {
+      previewImg.style.display = "none";
+      previewImg.removeAttribute("src");
+      return;
+    }
+
+    previewUrl = URL.createObjectURL(file);
+    previewImg.src = previewUrl;
+    previewImg.style.display = "block";
+  };
+
+  const updateUI = () => {
+    const f = fileInput.files && fileInput.files[0];
+
+    dropText.textContent = f
+      ? `Selected: ${f.name}`
+      : "Drag & drop an image here, or click to open File Explorer.";
+
+    uploadBtn.disabled = !f;
+
+    setPreview(f);
+  };
+
+  //starts with no file selected and upload greyed out
+  updateUI();
+
+  dropzone.addEventListener("click", () => fileInput.click());
+  fileInput.addEventListener("change", updateUI);
+
+  dropzone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropzone.classList.add("dragover");
+  });
+
+  dropzone.addEventListener("dragleave", () => {
+    dropzone.classList.remove("dragover");
+  });
+
+  dropzone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropzone.classList.remove("dragover");
+
+    const file = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Please drop an image file.");
+      return;
+    }
+
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    fileInput.files = dt.files;
+
+    updateUI();
+  });
+
+  // clean up preview URL when page is reloaded or closed 
+  window.addEventListener("beforeunload", () => {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+  });
+});
+
+//flash messages for error or success
+document.addEventListener("DOMContentLoaded", () => {
+  const flash = document.getElementById("flashContainer");
+  if (!flash) return;
+
+  //hide after 5 seconds
+  const timer = setTimeout(() => {
+    flash.remove();
+  }, 5000);
+
+  //click off
+  document.addEventListener("click", () => {
+    clearTimeout(timer);
+    flash.remove();
+  }, { once: true });
+});

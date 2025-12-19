@@ -6,13 +6,13 @@
 body {
     margin: 0;
     padding: 0;
-    background: #000; 
+    background: #fff; 
     font-family: "Inconsolata", monospace;
-    color: #000;
+    color: #fff;
 }
 
 .container {
-    background: #ffffff;
+    background: #000;
     margin: 25px 15px;
     padding: 50px;
     border-radius: 5px; /*rounded corners!*/
@@ -37,7 +37,7 @@ body {
 .nav-links a {
     justify-content: right;
     text-decoration: none;
-    color: #000;
+    color: #fff;
     font-size: 16px;
     font-weight: 500;
     margin-left: 20px;
@@ -47,6 +47,17 @@ body {
     text-decoration: underline;
     font-weight: bold;
 }
+
+.artist-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.artist-link:hover {
+  opacity: 0.85;
+}
+
 /*end of header styles*/
 
 /*gallery styles*/
@@ -184,13 +195,20 @@ body {
     font-size: 12px;
     letter-spacing: 5px;
     text-transform: uppercase;
-    color: #000;
+    color: #fff;
     padding: 20px 0 0px;
+}
+.footer span {
+    display: block;
 }
 
 /*end of footer styles*/
 
-
+admin-link {
+    color: #420079;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
 
 
 /*mobile stuffs*/
@@ -206,3 +224,104 @@ body {
         margin: 0 10px;
     }
 }
+
+/* end of mobile stuffs*/
+
+
+/* drag and drop stuffs */
+.section-heading {
+    text-align: center;
+}
+.admin-upload { 
+    margin: 20px 0; 
+    display: grid; 
+    gap: 10px; 
+    align-items: center; 
+    }
+
+.dropzone {
+  border: 2px dashed #fff;
+  border-radius: 5px;
+  padding: auto;
+  text-align: center;
+  background: #000;
+  cursor: pointer;
+}
+
+.dropzone.dragover {
+  border-color: #fff;
+  background: #fff;
+}
+
+.form-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+.text-input,
+.text-area,
+select {
+  width: 100%;
+  margin-top: 6px;
+  background: #111;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 6px 8px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.medium-select {
+    max-width: 40%;
+}
+
+.upload-btn {
+  letter-spacing: 2px;
+  margin-top: 5px;
+  max-width: 20%;
+  display: block;
+  margin: auto;
+}
+
+.preview-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.preview-img {
+  width: 20%;
+  border-radius: 5px;
+}
+
+    /* flash messages for error or success */
+.flash-container {
+  position: fixed;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+}
+
+.flash {
+  padding: 10px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.flash-success {
+  background: #003002;
+  color: #fff;
+}
+
+.flash-danger {
+  background: #380000;
+  color: #fff;
+}
+    /* end of flash messages for error or success */
+
+/* end of drag and drop stuffs */
