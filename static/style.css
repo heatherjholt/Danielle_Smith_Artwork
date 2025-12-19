@@ -601,6 +601,27 @@ html {
     margin: 22px auto 0;
     display: block;
     }
+    .admin-upload .form-label{
+    display: block;
+    width: 100%;
+    }
+    .admin-upload .text-input,
+    .admin-upload .text-area,
+    .admin-upload .medium-select,
+    #editForm input[type="text"],
+    #editForm textarea,
+    #editForm select {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        display: block;
+    }
+    .manage-actions button{
+    width: 120px;
+    padding: 10px 12px;
+    line-height: 1;
+    box-sizing: border-box;
+  }
 }
 
 /* end of mobile stuffs*/
