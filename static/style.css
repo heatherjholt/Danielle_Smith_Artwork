@@ -675,15 +675,6 @@ html {
     margin-top: 16px;
     }
 
-    .modal-actions .small-btn,
-    .modal-actions #deleteBtn {
-    width: 80%;
-    max-width: 320px;
-    display: block;
-    margin: 0 auto;
-    border-radius: 5px;
-    }
-
     .manage-item {
     align-items: center;
     }
@@ -692,21 +683,21 @@ html {
     flex-direction: column;
     justify-content: center;
     }
-.manage-actions button {
-  width: 50%;
-  max-width: 260px;
-  margin: 12px auto 0; 
-  padding: 12px 18px;
-  font-size: 14px;
-  border-radius: 8px;
-  display: block;
-  text-align: center;
-  -webkit-appearance: none;
-  appearance: none;
-  touch-action: manipulation;
-  line-height: normal;
-  cursor: pointer;
-}
+
+    .manage-actions button {
+    width: 50%;
+    margin: 12px auto 0; 
+    padding: 12px 18px;
+    font-size: 10px;
+    border-radius: 5px;
+    display: block;
+    text-align: center;
+    -webkit-appearance: none;
+    appearance: none;
+    touch-action: manipulation;
+    line-height: normal;
+    cursor: pointer;
+    }
 }
 
 @media (pointer: coarse) {
