@@ -544,7 +544,7 @@ html {
     .nav-links a {
         margin: 0 10px;
     }
-  
+  .gallery-filter select,
   .submit-btn,
   .upload-btn,
   button[type="submit"] {
