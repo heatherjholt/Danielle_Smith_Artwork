@@ -151,39 +151,42 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   //TESTING mobile photo/camera upload
-  document.addEventListener("DOMContentLoaded", () => {
-  const artFile = document.getElementById("artFile");
-  const cameraFile = document.getElementById("cameraFile");
+const takeBtn = document.getElementById("takePhotoBtn");
+const chooseBtn = document.getElementById("choosePhotoBtn");
+const cameraInput = document.getElementById("cameraFile");
 
-  const takeBtn = document.getElementById("takePhotoBtn");
-  const chooseBtn = document.getElementById("choosePhotoBtn");
+if (takeBtn && chooseBtn && cameraInput) {
+  takeBtn.addEventListener("click", () => {
+    cameraInput.disabled = false;
+    fileInput.disabled = true; 
+    cameraInput.value = "";
+    cameraInput.click();
+  });
 
-  if (takeBtn && cameraFile) {
-    takeBtn.addEventListener("click", () => cameraFile.click());
-  }
+  chooseBtn.addEventListener("click", () => {
+    fileInput.disabled = false;
+    cameraInput.disabled = true;
+    fileInput.value = "";
+    fileInput.click();
+  });
 
-  if (chooseBtn && artFile) {
-    chooseBtn.addEventListener("click", () => artFile.click());
-  }
+  cameraInput.addEventListener("change", () => {
+    const f = cameraInput.files && cameraInput.files[0];
+    setPreview(f);
+    uploadBtn.disabled = !f;
+  });
+}
 
-  if (cameraFile && artFile) {
-    cameraFile.addEventListener("change", () => {
-      if (!cameraFile.files?.length) return;
-
-      const dt = new DataTransfer();
-      dt.items.add(cameraFile.files[0]);
-      artFile.files = dt.files;
-
-      artFile.dispatchEvent(new Event("change", { bubbles: true }));
-    });
-  }
-});
 
 
   //starts with no file selected and upload greyed out
   updateUI();
 
-  dropzone.addEventListener("click", () => fileInput.click());
+//   dropzone.addEventListener("click", () => fileInput.click());
+dropzone.addEventListener("click", () => {
+  if (window.matchMedia("(pointer: coarse)").matches) return;
+  fileInput.click();
+});
   fileInput.addEventListener("change", updateUI);
 
   dropzone.addEventListener("dragover", (e) => {

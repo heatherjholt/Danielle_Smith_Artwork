@@ -507,7 +507,7 @@ html {
 }
 
 .mobile-pick-row {
-  display: none;
+  display: none !important;
 }
 /* end navigation in admin page*/
 
