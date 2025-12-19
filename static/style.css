@@ -6,7 +6,7 @@
 body {
     margin: 0;
     padding: 0;
-    background: #fff; 
+    background: #fff;
     font-family: "Inconsolata", monospace;
     color: #fff;
 }
@@ -78,7 +78,7 @@ body {
     border: none;
     background: none;
     cursor: pointer;
-    border-radius: 5px;    
+    border-radius: 5px;
 }
 
 .artwork-thumb img {
@@ -248,11 +248,11 @@ admin-link {
 .section-heading {
     text-align: center;
 }
-.admin-upload { 
-    margin: 20px 0; 
-    display: grid; 
-    gap: 10px; 
-    align-items: center; 
+.admin-upload {
+    margin: 20px 0;
+    display: grid;
+    gap: 10px;
+    align-items: center;
     }
 
 .dropzone {
@@ -490,8 +490,8 @@ select {
   text-decoration: underline;
 }
 
-html { 
-  scroll-behavior: smooth; 
+html {
+  scroll-behavior: smooth;
 }
 
 .admin-logout{
@@ -517,7 +517,7 @@ html {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 16px; 
+  gap: 16px;
   align-items: center;
 }
 /*end of login page*/
@@ -548,7 +548,7 @@ html {
     .nav-links a {
         margin: 0 10px;
     }
-  
+
     .submit-btn,
     .upload-btn,
     button[type="submit"] {
@@ -572,7 +572,7 @@ html {
     /*cursed medium dropdown*/
     .gallery-filter select#medium {
         box-sizing: border-box;
-        width: min(92vw, 320px) !important; 
+        width: min(92vw, 320px) !important;
         max-width: none !important;
         margin: 16px auto 0 !important;
         padding: 12px 16px !important;
@@ -629,6 +629,7 @@ html {
     display: flex;
     gap: 10px;
     margin: 12px 0 6px;
+    color: #000;
     }
 
     .pick-btn {
@@ -664,6 +665,7 @@ html {
     align-self: center;
     width: 100%;
     text-align-last: center;
+    color:transparent !important;
     }
 
     .modal-actions {
@@ -685,8 +687,8 @@ html {
     }
 
     .manage-actions button {
-    width: 50%;
-    margin: 12px auto 0; 
+    width: 75%;
+    margin: 12px auto 0;
     padding: 12px 18px;
     font-size: 10px;
     border-radius: 5px;
