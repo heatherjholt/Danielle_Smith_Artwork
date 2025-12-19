@@ -620,12 +620,7 @@ html {
         box-sizing: border-box;
         display: block;
     }
-    .manage-actions button{
-    width: 120px;
-    padding: 10px 12px;
-    line-height: 1;
-    box-sizing: border-box;
-  }
+
     #dropText {
     display: none; /* hide drag and drop text on mobile */
     }
@@ -668,6 +663,7 @@ html {
     margin-top: 8px;
     align-self: center;
     width: 100%;
+    text-align-last: center;
     }
 
     .modal-actions {
@@ -687,6 +683,30 @@ html {
     margin: 0 auto;
     border-radius: 5px;
     }
+
+    .manage-item {
+    align-items: center;
+    }
+    .manage-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    }
+.manage-actions button {
+  width: 50%;
+  max-width: 260px;
+  margin: 12px auto 0; 
+  padding: 12px 18px;
+  font-size: 14px;
+  border-radius: 8px;
+  display: block;
+  text-align: center;
+  -webkit-appearance: none;
+  appearance: none;
+  touch-action: manipulation;
+  line-height: normal;
+  cursor: pointer;
+}
 }
 
 @media (pointer: coarse) {
