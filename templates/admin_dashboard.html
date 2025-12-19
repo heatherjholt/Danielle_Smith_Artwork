@@ -38,8 +38,15 @@
         <!--end of header-->
 
         <!--main content-->
-        
-        <section id="upload" class="gallery-section">
+        <nav class="admin-nav">
+            <a href="#upload-section">UPLOAD NEW ARTWORK</a>
+            <a href="#manage-section">MANAGE ARTWORK</a>
+            <a href="#about-section">EDIT ABOUT PAGE</a>
+        </nav>
+
+
+
+        <section id="upload-section" class="gallery-section">
         <h2 class="section-heading">UPLOAD NEW ARTWORK</h2>
 
         <form class="admin-upload" action="{{ url_for('upload_art') }}" method="POST" enctype="multipart/form-data">
@@ -81,9 +88,95 @@
             <button type="submit" class="upload-btn" id="uploadBtn" disabled>UPLOAD</button>
         </form>
         
-        <div class="section-divider"></div>
+    <div class="section-divider"></div>
 
-            <section class="gallery-section">
+        <h2 id="manage-section" class="section-heading">MANAGE ARTWORK</h2>
+
+            <div id="manageList" class="manage-list">
+                {% for art in artworks %}
+                <div class="manage-item" data-id="{{ art.saved_id }}">
+                    <button class="drag-handle" type="button" aria-label="Reorder">⋮⋮</button>
+
+                    <img class="manage-thumb" src="{{ url_for('static', filename='artwork/' ~ art.image) }}" alt="">
+
+                    <div class="manage-info">
+                    <div class="manage-title">{{ art.title or "(untitled)" }}</div>
+                    <div class="manage-sub">{{ art.medium or "" }}</div>
+
+                    <div class="manage-actions">
+                        <button
+                            type="button"
+                            class="edit-btn"
+                            data-id="{{ art.saved_id }}"
+                            data-title="{{ art.title|default('')|e }}"
+                            data-medium="{{ art.medium|default('')|e }}"
+                            data-description="{{ art.description|default('')|e }}"
+                            data-image="{{ art.image|default('')|e }}"
+                        >
+                        EDIT
+                        </button>
+                        <form action="/admin/art/{{ art.saved_id }}/delete" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this artwork?');">
+                        <button type="submit">DELETE</button>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div id="artModal" class="modal hidden" aria-hidden="true">
+            <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+                <div class="modal-header">
+                <div id="modalTitle" class="modal-title">EDIT ARTWORK</div>
+                <button type="button" class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+                </div>
+
+                <form id="editForm" method="POST" enctype="multipart/form-data">
+                <label class="form-label">
+                    TITLE:
+                    <input type="text" name="title" id="modalTitleInput">
+                </label>
+
+                <label class="form-label">
+                    MEDIUM:
+                    <select name="medium" id="modalMediumInput">
+                    <option value="">SELECT</option>
+                    <option value="Painting">PAINTING</option>
+                    <option value="Drawing">DRAWING</option>
+                    <option value="Print">PRINT</option>
+                    <option value="Digital">DIGITAL</option>
+                    <option value="Mixed Media">MIXED MEDIA</option>
+                    </select>
+                </label>
+
+                <label class="form-label">
+                    DESCRIPTION:
+                    <textarea name="description" id="modalDescriptionInput" rows="3"></textarea>
+                </label>
+
+                <div class="modal-preview-row">
+                    <img id="modalPreviewImg" class="modal-preview" alt="" />
+                </div>
+
+                <label class="form-label">
+                    REPLACE IMAGE:
+                    <input type="file" name="art_file" id="modalFileInput" accept="image/*">
+                </label>
+
+                <div class="modal-actions">
+                    <button type="submit" class="small-btn">SAVE</button>
+
+                    <button type="button" class="small-btn danger" id="deleteBtn">
+                    DELETE
+                    </button>
+                </div>
+                </form>
+            </div>
+            </div>
+
+    <div class="section-divider"></div>
+
+            <section id="about-section" class="gallery-section">
                 <h2 class="section-heading">EDIT ABOUT PAGE</h2>
 
                 <form action="{{ url_for('update_about') }}" method="POST" class="admin-upload">
@@ -112,9 +205,11 @@
                 </form>
             </section>
 
-
-
         </section>
+
+        <div class="admin-logout">
+            <a href="{{ url_for('logout') }}">LOGOUT</a>
+        </div>
 
         <div class="section-divider"></div>
 
@@ -131,7 +226,7 @@
 
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 

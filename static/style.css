@@ -24,7 +24,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #eee;  /*line below header*/
+    border-bottom: 2px solid #444;  /*line below header*/
     padding-bottom: 20px;
     margin-bottom: 30px;
 }
@@ -187,7 +187,7 @@ body {
 /*footer styles*/
 
 .section-divider {
-    border-bottom: 2px solid #eee;  /*line above footer*/
+    border-bottom: 2px solid #444;  /*line above footer*/
     margin-top: 30px;
     margin-bottom: 30px;
 }
@@ -241,7 +241,7 @@ admin-link {
     }
 
 .dropzone {
-  border: 2px dashed #fff;
+  border: 2px dashed #444;
   border-radius: 5px;
   padding: auto;
   text-align: center;
@@ -250,7 +250,7 @@ admin-link {
 }
 
 .dropzone.dragover {
-  border-color: #fff;
+  border-color: #444;
   background: #fff;
 }
 
@@ -258,15 +258,15 @@ admin-link {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 12px;
   letter-spacing: 2px;
   color: #fff;
+  padding: 5px 5px;
 }
 
 .text-input,
 .text-area,
 select {
-  width: 100%;
+  width: 50%;
   margin-top: 6px;
   background: #111;
   color: #fff;
@@ -274,10 +274,7 @@ select {
   padding: 6px 8px;
   font-size: 13px;
   text-align: center;
-}
-
-.medium-select {
-    max-width: 40%;
+  border-radius: 5px;
 }
 
 .upload-btn {
@@ -326,3 +323,182 @@ select {
     /* end of flash messages for error or success */
 
 /* end of drag and drop stuffs */
+
+/*edit and delete sections*/
+.manage-list {
+  display: grid;
+  gap: 12px;
+}
+
+.manage-item {
+  display: grid;
+  grid-template-columns: 34px 90px 1fr;
+  gap: 14px;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 12px;
+  border-radius: 5px;
+}
+
+.drag-handle {
+  cursor: grab;
+  user-select: none;
+  background: transparent;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.drag-handle:active { cursor: grabbing; }
+
+.manage-thumb {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.is-ghost {
+  opacity: 0.85;
+  outline: 2px dashed #fff;
+}
+
+.is-chosen {
+  box-shadow: 0 10px 30px #000;
+}
+
+/*modal styles for edit and delete */
+.modal.hidden { display: none; }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 18px;
+}
+
+.modal label {
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.modal input,
+.modal textarea,
+.modal select {
+  width: 50%;
+  background: #111;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 8px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.modal-card {
+  width: min(560px);
+  background: #000;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 5px;
+  padding: 16px;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.modal-preview-row {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-preview {
+  display: block;
+  max-width: 25%;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid #444;
+  margin: 10px 0;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.small-btn.danger {
+  border: 1px solid #444;
+  opacity: 0.95;
+}
+
+/* end edit and delete sections*/
+
+/*navigation in admin page*/
+.admin-nav{
+  display:flex;
+  justify-content:center;
+  gap:28px;
+  margin: 18px 0 30px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.admin-nav a{
+  color:#fff;
+  text-decoration:none;
+  opacity:0.85;
+}
+
+.admin-nav a:hover{
+  opacity:1;
+  text-decoration: underline;
+}
+
+html { 
+  scroll-behavior: smooth; 
+}
+
+.admin-logout{
+  text-align:center;
+  margin-top: 30px;
+}
+
+.admin-logout a{
+  color:#fff;
+  font-size:12px;
+  letter-spacing:2px;
+  text-decoration:none;
+}
+/* end navigation in admin page*/
+
+/*login page*/
+.login-form {
+  max-width: 50%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+  align-items: center;
+}
+/*end of login page*/

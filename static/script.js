@@ -201,3 +201,141 @@ document.addEventListener("DOMContentLoaded", () => {
     flash.remove();
   }, { once: true });
 });
+
+//reorder and editing
+document.addEventListener("DOMContentLoaded", () => {
+  const list = document.getElementById("manageList");
+  if (!list || typeof Sortable === "undefined") return;
+
+  new Sortable(list, {
+    animation: 160,
+    handle: ".drag-handle",
+    draggable: ".manage-item",
+    ghostClass: "is-ghost",
+    chosenClass: "is-chosen",
+    dragClass: "is-dragging",
+    forceFallback: true,
+    fallbackTolerance: 5,
+    onEnd: async () => {
+      const order = Array.from(list.querySelectorAll(".manage-item"))
+        .map(el => el.dataset.id);
+
+      try {
+        const res = await fetch("/admin/art/reorder", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ order }),
+        });
+        if (!res.ok) throw new Error("Bad response");
+      } catch (e) {
+        console.error(e);
+        alert("Could not save new order.");
+      }
+    }
+  });
+});
+
+//modal for editing
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("artModal");
+  if (!modal) return;
+
+  const closeBtn = document.getElementById("modalClose");
+  const editForm = document.getElementById("editForm");
+
+  const titleInput = document.getElementById("modalTitleInput");
+  const mediumInput = document.getElementById("modalMediumInput");
+  const descInput = document.getElementById("modalDescriptionInput");
+  const fileInput = document.getElementById("modalFileInput");
+
+  const previewImg = document.getElementById("modalPreviewImg");
+  const deleteBtn = document.getElementById("deleteBtn");
+
+  let currentId = null;
+  let previewUrl = null;
+
+  function openModal() {
+    modal.classList.remove("hidden");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    modal.classList.add("hidden");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    previewUrl = null;
+
+    if (fileInput) fileInput.value = "";
+  }
+
+  function setPreviewFromExisting(imageName) {
+    if (!imageName) {
+      previewImg.style.display = "none";
+      previewImg.removeAttribute("src");
+      return;
+    }
+    previewImg.src = `/static/artwork/${imageName}`;
+    previewImg.style.display = "block";
+  }
+
+  function setPreviewFromFile(file) {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    previewUrl = null;
+
+    if (!file) return;
+
+    previewUrl = URL.createObjectURL(file);
+    previewImg.src = previewUrl;
+    previewImg.style.display = "block";
+  }
+
+  document.querySelectorAll(".edit-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      currentId = btn.dataset.id;
+
+      titleInput.value = btn.dataset.title || "";
+      mediumInput.value = btn.dataset.medium || "";
+      descInput.value = btn.dataset.description || "";
+
+      editForm.action = `/admin/art/${currentId}/update`;
+
+      //thumbnail
+      setPreviewFromExisting(btn.dataset.image);
+
+      openModal();
+    });
+  });
+
+  fileInput.addEventListener("change", () => {
+    const f = fileInput.files && fileInput.files[0];
+    if (f) setPreviewFromFile(f);
+  });
+
+  deleteBtn.addEventListener("click", () => {
+    if (!currentId) return;
+
+    const ok = confirm("Are you sure you want to delete this artwork?");
+    if (!ok) return;
+
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = `/admin/art/${currentId}/delete`;
+    document.body.appendChild(form);
+    form.submit();
+  });
+
+  closeBtn.addEventListener("click", closeModal);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+      closeModal();
+    }
+  });
+});

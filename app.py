@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request, url_for,jsonify
 from artwork import init_connection_engine, db,SavedArt,AdminUser, AboutPage
-from flask_login import LoginManager, login_user, login_required
+from flask_login import LoginManager, login_user, login_required, logout_user
 from sqlalchemy import select
 from flask import request, redirect, url_for, flash
 from werkzeug.utils import secure_filename
@@ -39,16 +39,16 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# ------------ ?ROUTES --------------
+# ------------ ROUTES --------------
 @app.route("/")
 def home():
-    artworks = db.session.execute(select(SavedArt)).scalars().all()
+    artworks = db.session.execute(select(SavedArt).order_by(SavedArt.position.asc(), SavedArt.saved_id.asc())).scalars().all()
     return render_template("index.html", artworks = artworks)
 
 @app.route("/admin")
 @login_required
 def admin_dashboard():
-    artworks = db.session.execute(select(SavedArt)).scalars().all()
+    artworks = db.session.execute(select(SavedArt).order_by(SavedArt.position.asc(), SavedArt.saved_id.asc())).scalars().all()
     about_row = db.session.get(AboutPage, 1)
     return render_template("admin_dashboard.html", artworks=artworks, about=about_row)
 
@@ -76,6 +76,85 @@ def update_about():
     flash("About page updated!", "success")
     return redirect(url_for("admin_dashboard"))
 
+@app.route("/admin/art/<int:art_id>/delete", methods=["POST"])
+@login_required
+def delete_art(art_id):
+    art = db.session.get(SavedArt, art_id)
+    if not art:
+        flash("Artwork not found.", "danger")
+        return redirect(url_for("admin_dashboard"))
+
+    if art.image:
+        path = os.path.join(app.config["UPLOAD_FOLDER"], art.image)
+        try:
+            if os.path.exists(path):
+                os.remove(path)
+        except Exception:
+            pass
+
+    db.session.delete(art)
+    db.session.commit()
+    flash("Artwork deleted.", "success")
+    return redirect(url_for("admin_dashboard"))
+
+@app.route("/admin/art/<int:art_id>/update", methods=["POST"])
+@login_required
+def update_art(art_id):
+    art = db.session.get(SavedArt, art_id)
+    if not art:
+        flash("Artwork not found.", "danger")
+        return redirect(url_for("admin_dashboard"))
+
+    art.title = request.form.get("title")
+    art.medium = request.form.get("medium")
+    art.description = request.form.get("description")
+
+    file = request.files.get("art_file")
+    if file and file.filename:
+        if not allowed_file(file.filename):
+            flash("Only JPG, PNG, WEBP, or GIF images are allowed.", "danger")
+            return redirect(url_for("admin_dashboard"))
+
+        filename = secure_filename(file.filename)
+        name, ext = os.path.splitext(filename)
+        filename = f"{name}_{uuid.uuid4().hex[:8]}{ext}"
+
+        file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+
+        if art.image:
+            old_path = os.path.join(app.config["UPLOAD_FOLDER"], art.image)
+            try:
+                if os.path.exists(old_path):
+                    os.remove(old_path)
+            except Exception:
+                pass
+
+        art.image = filename
+
+    db.session.commit()
+    flash("Artwork updated.", "success")
+    return redirect(url_for("admin_dashboard"))
+
+@app.route("/admin/art/reorder", methods=["POST"])
+@login_required
+def reorder_art():
+    data = request.get_json(silent=True) or {}
+    order = data.get("order", [])
+
+    for idx, art_id in enumerate(order):
+        art = db.session.get(SavedArt, int(art_id))
+        if art:
+            art.position = idx
+
+    db.session.commit()
+    return jsonify(ok=True)
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash("You have been logged out.", "success")
+    return redirect(url_for("home"))
 
 # ------------ Flask Login Setup --------------------
 login_manager = LoginManager()

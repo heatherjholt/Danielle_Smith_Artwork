@@ -58,6 +58,7 @@ class SavedArt(db.Model):
     image: Mapped[str] = mapped_column(String(255), nullable=True)
     medium: Mapped[str] = mapped_column(String(100), nullable=True)
     description: Mapped[str] = mapped_column(Text, nullable=True)
+    position: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
 class AdminUser(db.Model, UserMixin):
     __tablename__ = "admin_user"
@@ -66,6 +67,10 @@ class AdminUser(db.Model, UserMixin):
     email: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
     name: Mapped[str] = mapped_column(String(128), nullable=True)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
+#had to add this bc of error when logging out and logging back in
+    @property
+    def id(self):
+        return self.admin_id
 
 class AboutPage(db.Model):
     __tablename__ = "about_page"
