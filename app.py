@@ -20,6 +20,8 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 280}
+
 ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png", "webp", "gif"}
 def allowed_file(filename):
     return "." in filename and \
