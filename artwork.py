@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
-from sqlalchemy import String, Integer, Text,DateTime
+from sqlalchemy import String, Integer, Text,DateTime, func
 from flask_login import UserMixin
 
 
@@ -81,3 +81,11 @@ class AboutPage(db.Model):
     
     def get_id(self):
         return str(self.admin_id)
+    
+class ContactPage(db.Model):
+    __tablename__ = "contact_page"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(255), nullable=True)
+    email: Mapped[str] = mapped_column(String(255), nullable=False)
+    message_body: Mapped[str] = mapped_column(String(255), nullable=False)
+    date_sent: Mapped[DateTime] = mapped_column(DateTime, default=func.now())

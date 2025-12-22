@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, url_for,jsonify
-from artwork import init_connection_engine, db,SavedArt,AdminUser, AboutPage
+from artwork import init_connection_engine, db,SavedArt,AdminUser, AboutPage, ContactPage
 from flask_login import LoginManager, login_user, login_required, logout_user
 from sqlalchemy import select
 from flask import request, redirect, url_for, flash
@@ -155,11 +155,60 @@ def reorder_art():
 
     db.session.commit()
     return jsonify(ok=True)
-
+# ----------- Contact Page setup --------------
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
 
+@app.route("/contact/submit")
+@limiter.limit("5 per hour")
+def submit_contact():
+    name = request.form.get("name")
+    email = request.form.get("email")
+    message_body = request.form.get("message")
+
+    if not email or not message_body:
+        flash("Error: Email and message required")
+        return redirect(url_for("contact"))
+    
+    new_message = ContactPage(
+        name = name,
+        email = email,
+        message_body = message_body
+    )
+    try:
+        db.session.add(new_message)
+        db.session.commit()
+        flash("Thank you for your message")
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error saving message: {e}")
+
+    return redirect(url_for("contact"))
+
+# ----------- Admin message Management ---------------
+
+@app.route("/admin/messages")
+@login_required
+def view_messages():
+    stmt = select(ContactPage).order_by(ContactPage.date_sent.desc())
+    messages = db.session.execute(stmt).scalars().all()
+    return render_template("admin_messages.html", messages=messages)    # Heather you can rename this whatever you want
+
+@app.route("/admin/messages/<int:msg_id>/delete")
+@login_required
+def delete_messages(msg_id):
+    msg = db.session.get(ContactPage, msg_id)
+    if msg:
+        db.session.delete(msg)
+        db.session.commit()
+        flash("Message deleted.", "success")
+    else:
+        flash("Message not found", "danger")
+    
+    return redirect(url_for("view_messages"))
+
+# ------------- Logout ----------------------------
 @app.route("/logout")
 @login_required
 def logout():
