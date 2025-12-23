@@ -25,7 +25,7 @@
 
         <!--main content-->
         <main>
-            <section id="gallery" class="gallery-section">
+            <section id="gallery" class="gallery-section {% if artworks|length == 1 %}single{% endif %}"> <!--jinja for when its a single pic, diff css rules apply-->
                 <!-- <h2 class="section-heading">RECENT WORKS</h2> -->
             <form method="get" id="filter-form" class="gallery-filter">
                 <select name="medium" id="medium" onchange="this.form.submit()">
