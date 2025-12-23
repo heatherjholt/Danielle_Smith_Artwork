@@ -307,6 +307,8 @@ select {
   max-width: 20%;
   display: block;
   margin: auto;
+  text-transform: uppercase;
+  border-radius: 5px;
 }
 
 .preview-wrap {
@@ -472,7 +474,6 @@ select {
 
 .small-btn.danger {
   border: 1px solid #444;
-  opacity: 0.95;
 }
 
 /* end edit and delete sections*/
@@ -520,6 +521,87 @@ html {
 }
 /* end navigation in admin page*/
 
+/*messages in admin*/
+.message-grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:14px;
+    margin-top:14px;
+}
+
+.message-card{
+    border:1px solid rgba(255,255,255,0.14);
+    border-radius:5px;
+    padding:14px;
+    background: rgba(0,0,0,0.35);
+}
+
+.message-top{
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.message-name{
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform: uppercase;
+}
+
+.message-email{
+    display:inline-block;
+    margin-top:2px;
+    font-size:13px;
+    text-decoration:none;
+    word-break: break-word;
+}
+
+.message-email:hover{ 
+    text-decoration:underline; 
+}
+    /*made the email links lighter so its easier to see on black than browser blue*/
+a.message-email {
+    color: #6fb4ff;
+    text-decoration: none;
+}
+
+a.message-email:hover {
+    color: #9fd0ff;
+    text-decoration: underline;
+}
+
+a.message-email:visited {
+    color: #6fb4ff;
+}
+
+.message-date{
+    margin-top:4px;
+    font-size:12px;
+}
+
+.message-body{
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px solid rgba(255,255,255,0.10);
+    white-space: pre-wrap;
+    overflow-wrap:anywhere;
+}
+
+.message-delete{
+    padding:10px 14px;
+    min-width:110px;
+    border-radius:10px;
+    letter-spacing:2px;
+    font-size:13px;
+    white-space:nowrap;
+}
+
+.message-delete,
+.small-btn.danger{
+    border-radius: 5px;
+}
+/*end of messages in admin*/
+
 /*login page*/
 .login-form {
   width: 50%;
@@ -566,12 +648,13 @@ html {
         margin: 22px auto 0;
         padding: 12px 18px;
         font-size: 14px;
-        border-radius: 8px;
+        border-radius: 5px;
         display: block;
         text-align: center;
         -webkit-appearance: none;
         appearance: none;
         touch-action: manipulation;
+        text-transform: uppercase;
     }
         .gallery-filter {
         display: flex;
@@ -709,6 +792,12 @@ html {
     line-height: normal;
     cursor: pointer;
     }
+
+.message-delete,
+.small-btn.danger{
+    width: 100%;
+    max-width: 260px;
+}
 }
 
 @media (pointer: coarse) {

@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
-from sqlalchemy import String, Integer, Text,DateTime, func
+from sqlalchemy import String, Integer, Text,DateTime, func, Text
 from flask_login import UserMixin
 
 
@@ -87,5 +87,6 @@ class ContactPage(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(255), nullable=True)
     email: Mapped[str] = mapped_column(String(255), nullable=False)
-    message_body: Mapped[str] = mapped_column(String(255), nullable=False)
+    # message_body: Mapped[str] = mapped_column(String(255), nullable=False)
+    message_body: Mapped[str] = mapped_column(Text, nullable=False) #allow for longer messages to account for newline too
     date_sent: Mapped[DateTime] = mapped_column(DateTime, default=func.now())

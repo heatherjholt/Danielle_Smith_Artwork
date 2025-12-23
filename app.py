@@ -52,12 +52,14 @@ def home():
     media = db.session.execute(select(SavedArt.medium).distinct().order_by(SavedArt.medium.asc())).scalars().all()
     return render_template("index.html", artworks = artworks, media=media, selected_medium=medium or 'all')
 
-@app.route("/admin")
+@app.route("/admin", methods=["GET"])
 @login_required
 def admin_dashboard():
+    info = select(ContactPage).order_by(ContactPage.date_sent.desc())
+    messages = db.session.execute(info).scalars().all()
     artworks = db.session.execute(select(SavedArt).order_by(SavedArt.position.asc(), SavedArt.saved_id.asc())).scalars().all()
     about_row = db.session.execute(select(AboutPage)).scalar_one_or_none()
-    return render_template("admin_dashboard.html", artworks=artworks, about=about_row)
+    return render_template("admin_dashboard.html", artworks=artworks, about=about_row, messages=messages)
 
 @app.route("/about")
 def about():
@@ -160,7 +162,7 @@ def reorder_art():
 def contact():
     return render_template("contact.html")
 
-@app.route("/contact/submit")
+@app.route("/contact/submit", methods=["POST"])
 @limiter.limit("5 per hour")
 def submit_contact():
     name = request.form.get("name")
@@ -168,7 +170,12 @@ def submit_contact():
     message_body = request.form.get("message")
 
     if not email or not message_body:
-        flash("Error: Email and message required")
+        flash("Error: Email and message required", "danger")
+        return redirect(url_for("contact"))
+    
+    #adding to control message length
+    if len(message_body) > 255:
+        flash("Message must be 255 characters or less.", "danger")
         return redirect(url_for("contact"))
     
     new_message = ContactPage(
@@ -179,7 +186,7 @@ def submit_contact():
     try:
         db.session.add(new_message)
         db.session.commit()
-        flash("Thank you for your message")
+        flash("Message sent successfully.", "success")
     except Exception as e:
         db.session.rollback()
         print(f"Error saving message: {e}")
@@ -188,14 +195,14 @@ def submit_contact():
 
 # ----------- Admin message Management ---------------
 
-@app.route("/admin/messages")
-@login_required
-def view_messages():
-    stmt = select(ContactPage).order_by(ContactPage.date_sent.desc())
-    messages = db.session.execute(stmt).scalars().all()
-    return render_template("admin_messages.html", messages=messages)    # Heather you can rename this whatever you want
+# @app.route("/admin/messages")
+# @login_required
+# def view_messages():
+#     stmt = select(ContactPage).order_by(ContactPage.date_sent.desc())
+#     messages = db.session.execute(stmt).scalars().all()
+#     return render_template("admin_messages.html", messages=messages)    # Heather you can rename this whatever you want
 
-@app.route("/admin/messages/<int:msg_id>/delete")
+@app.route("/admin/messages/<int:msg_id>/delete", methods=["POST"])
 @login_required
 def delete_messages(msg_id):
     msg = db.session.get(ContactPage, msg_id)
@@ -206,7 +213,7 @@ def delete_messages(msg_id):
     else:
         flash("Message not found", "danger")
     
-    return redirect(url_for("view_messages"))
+    return redirect(url_for("admin_dashboard"))
 
 # ------------- Logout ----------------------------
 @app.route("/logout")

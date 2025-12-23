@@ -11,6 +11,19 @@
 </head>
 
 <body>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-container" id="flashContainer">
+        {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">
+            {{ message }}
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
     <div class="container">
         <!-- header -->
         <div class="header">
@@ -29,7 +42,7 @@
             <section class="gallery-section" id="contact">
                 <h2 class="section-heading">CONTACT</h2>
 
-                <form class="contact-form" method="POST" action="#">
+                <form class="contact-form" method="POST" action="/contact/submit">
                 
                 <label class="form-label">
                     NAME:
@@ -56,12 +69,15 @@
                 <label class="form-label">
                     MESSAGE:
                     <textarea
+                    id="message"
                     name="message"
                     class="text-area"
                     rows="6"
                     placeholder="Write your message here..."
+                    maxlength="255"
                     required
                     ></textarea>
+                    <div id="msgCount" class="char-count">0/255</div><!--db allows for 255 char currently-->
                 </label>
 
                 <button type="submit" class="submit-btn">

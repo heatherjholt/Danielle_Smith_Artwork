@@ -219,6 +219,41 @@
         </div>
 
         <div class="section-divider"></div>
+        <h2 class="section-heading">MESSAGES</h2>
+
+        <div class="message-grid">
+        {% if messages and messages|length %}
+        {% for msg in messages %}
+        <div class="message-card">
+
+        <div class="message-top">
+            <div class="message-meta">
+            <div class="message-name">{{ msg.name or "Anonymous" }}</div>
+            <a class="message-email" href="mailto:{{ msg.email }}">{{ msg.email }}</a>
+            <div class="message-date">
+                {{ msg.date_sent.strftime("%b %d, %Y %I:%M %p") if msg.date_sent else "" }}
+            </div>
+            </div>
+
+            <form method="POST"
+                action="{{ url_for('delete_messages', msg_id=msg.id) }}"
+                onsubmit="return confirm('Delete this message?');">
+            <button type="submit" class="small-btn danger">DELETE</button>
+            </form>
+        </div>
+
+            <div class="message-body">{{ msg.message_body }}</div>
+
+            </div>
+        {% endfor %}
+        {% else %}
+        <p>No messages yet.</p>
+        {% endif %}
+        </div>
+
+
+
+        <div class="section-divider"></div>
 
         <!--end of main content-->
 

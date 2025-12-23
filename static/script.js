@@ -390,3 +390,35 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+//character count for message box
+document.addEventListener("DOMContentLoaded", () => {
+  const ta = document.getElementById("message");
+  const counter = document.getElementById("msgCount");
+  if (!ta || !counter) return;
+
+  const MAX = 255;
+
+  //calculate newlines as well as chars
+  function getEffectiveLength(value) {
+    const newlineCount = (value.match(/\n/g) || []).length;
+    return value.length + newlineCount;
+  }
+
+  function update() {
+    let value = ta.value;
+    let effectiveLength = getEffectiveLength(value);
+
+    // Hard stop: trim excess
+    while (effectiveLength > MAX) {
+      value = value.slice(0, -1);
+      effectiveLength = getEffectiveLength(value);
+    }
+
+    ta.value = value;
+    counter.textContent = `${effectiveLength}/${MAX}`;
+  }
+
+  ta.addEventListener("input", update);
+  update();
+});
