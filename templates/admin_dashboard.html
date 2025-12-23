@@ -215,11 +215,8 @@
 
         </section>
 
-        <div class="admin-logout">
-            <a href="{{ url_for('logout') }}">LOGOUT</a>
-        </div>
-
         <div class="section-divider"></div>
+        <section id="messages-section" class="gallery-section">
         <h2 class="section-heading">MESSAGES</h2>
 
         <div class="message-grid">
@@ -252,8 +249,11 @@
         {% endif %}
         </div>
 
-
-
+        <div class="admin-logout">
+            <a href="{{ url_for('logout') }}">LOGOUT</a>
+        </div>
+        </section>
+        
         <div class="section-divider"></div>
 
         <!--end of main content-->
