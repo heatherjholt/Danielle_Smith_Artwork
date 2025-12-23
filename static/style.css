@@ -6,13 +6,13 @@
 body {
     margin: 0;
     padding: 0;
-    background: #fff;
+    background: #000; /*background behind page container*/
     font-family: "Inconsolata", monospace;
     color: #fff;
 }
 
 .container {
-    background: #000;
+    background: #000; /*page container background*/
     margin: 25px 15px;
     padding: 50px;
     border-radius: 5px; /*rounded corners!*/
@@ -68,12 +68,12 @@ body {
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); /*if you want them bigger/smaller in grid view just change the first minmax argument*/
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     gap: 10px;
 }
 
 .gallery-grid.single {
-    grid-template-columns: minmax(330px, 420px); /*fix for when its single pic and not enough showing*/
+    grid-template-columns: minmax(230px, 420px); /*fix for when its single pic and not enough showing*/
 }
 .gallery-section.single .artwork-thumb {
   width: 100%;
